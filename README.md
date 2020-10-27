@@ -1,4 +1,45 @@
-[![Build Status](https://travis-ci.org/xhkocatepe/fast-cart.svg?branch=master)](https://travis-ci.org/xhkocatepe/fast-cart) [![Coverage Status](https://coveralls.io/repos/github/xhkocatepe/fast-cart/badge.svg?branch=master)](https://coveralls.io/github/xhkocatepe/fast-cart?branch=master) ![GitHub package.json version](https://img.shields.io/github/package-json/v/xhkocatepe/fast-cart)  ![GitHub](https://img.shields.io/github/license/xhkocatepe/fast-cart) 
-# FastCarT -  Happy Trading! 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/xhkocatepe/fast-cart)  ![GitHub](https://img.shields.io/github/license/xhkocatepe/fast-cart) 
+# Fast CarT -  Happy Trading! 
 
-FastCarT provides 
+Fast CarT-Trade application is implemented with Nodejs.
+
+App provides as business impacts:
+* Get an empty cart and start shopping!
+* Creating a new Cart,
+* Add/Remove items with quantity to cart, 
+* Apply campaigns to cart. 
+* Apply a coupon to cart. 
+* Calculate delivery cost which depends on delivery badge!
+* PS: Do not forget 
+    * Create categories which may have parents.
+    * Create products which belongs to category.
+
+#Installation
+
+```
+npm install
+npm test
+npm run coverage
+```
+
+![](./images/coverage.gif)
+
+# Over All Case Shows
+
+Please follow this test for explain all cases.
+./Test/Cart.spec.js
+
+![](./images/overall-case.png)
+
+# Coverage Report Result:
+
+```
+git clone https://github.com/xhkocatepe/fast-cart.git
+npm install
+npm run coverage
+
+open browser
+http://localhost:63342/fast-cart/coverage/lcov-report/index.html
+```
+
+![](./images/code-coverage.png)

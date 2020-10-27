@@ -5,6 +5,7 @@
   "scripts": {
     "test": "jest",
     "test-watch": "npm run test -- --watch",
+    "coverage": "jest --coverage",
     "coveralls": "jest --coverage && coveralls < ./coverage/lcov.info"
   },
   "repository": "https://github.com/xhkocatepe/fast-cart.git",
