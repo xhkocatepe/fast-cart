@@ -52,6 +52,97 @@ describe('cart side', () => {
     // %40 discount when total price greater than 500 TL on cart
     const couponLarge = new Coupon({ minPrice: 500, value: 40, type: DISCOUNT_TYPE.RATE });
 
+    describe('!! OVER ALL CASE !! used almost all edge cases -> campaign, coupon, different SubCategories', () => {
+        const cart = new Cart();
+        cart.addItem(lipLinerProduct, 2);
+        cart.addItem(lipStickProduct, 2);
+        cart.addItem(bodyLotionProduct, 5);
+
+        /**
+         *  !!!! Attention !!!!
+         *  Please look at above the describe to learn Campaign, Category, Product, Coupon
+         *  !!!! Attention !!!!
+         *
+         *  Caught 3 ApplicableCampaigns! ->
+         *           cosmeticCampaign (limit: 5),
+         *           bodyCareCampaign (limit: 2),
+         *           makeUpCampaign (limit: 3)
+         *
+         *  Apply Campaign according to a Product Category!
+         *
+         *  Item1 -> lipLinerProduct  => 50 * 2 = 100 TL
+         *  ✅ makeUpCampaign:      minQuantity 3 >= 2 | 100 % 30         => 30 TL
+         *  ⛔ cosmeticCampaign:    minQuantity 5 >= 5 | 100 % 20         => 20 TL
+         *  makeUpCampaign  > cosmeticCampaign ( 30 TL > 20 TL)
+         *
+         *  Item2 -> lipStickProduct => 110 * 2 = 220 TL
+         *  ✅ makeUpCampaign:      minQuantity 3 >= 2 | 220 % 30         => 66 TL
+         *  ⛔ cosmeticCampaign:    minQuantity 5 >= 5 | 220 % 20         => 22 TL
+         *  makeUpCampaign  > cosmeticCampaign ( 66 TL > 22 TL)
+         *
+         *  Item3 -> bodyLotionProduct => 80 * 5 = 400 TL
+         *  ✅ cosmeticCampaign:    minQuantity 5 >= 5 | 400 % 20          => 80 TL
+         *  ⛔ bodyCareCampaign:    minQuantity 2 >= 2 | 400 of 75 TL      => 75 TL
+         *  cosmeticCampaign > bodyCareCampaign ( 80 TL > 75 TL)
+         */
+
+        cart.applyCampaigns();
+        cart.applyCoupon(couponLarge);
+
+        // Any Guess?? Be Ready to Flight! :)
+        it('1-> total price:  720 = 400 + 220 + 100', () => {
+            expect(cart.totalPrice).toStrictEqual(720);
+        });
+        it('2-> total price after campaign discount: 544 = 720 - 176', () => {
+            expect(cart.totalPriceAfterCampaignDiscount).toStrictEqual(544);
+        });
+        it('3-> total price over all: Total - (Campaigns + Coupons) 326.4 = 720 - (176+217.6)', () => {
+            expect(cart.totalPriceOverAll).toStrictEqual(326.4);
+        });
+        it('4-> delivery cost: 4.99 = 1.99 + (3 * 1)', () => {
+            expect(cart.calculateDeliveryCost()).toBe(4.99);
+        });
+        it('5-> totalCampaignDiscountPrice: 176 = 30 + 66 + 80', () => {
+            expect(cart.totalCampaignDiscountPrice).toBe((176));
+        });
+        it('6-> couponDiscountPrice: 217.6 = (720-176) % 40', () => {
+            expect(cart.couponDiscountPrice).toBe(217.6);
+        });
+        // Details
+        it('7-> total quantity 9 = 5 + 2 + 2', () => {
+            expect(cart.totalQuantity).toBe(9);
+        });
+        it('total quantity each of included category', () => {
+            expect(cart.getTotalQuantityOfCategory(bodyCareChildCategory)).toBe(5);
+            expect(cart.getTotalQuantityOfCategory(cosmeticRootCategory)).toBe(9);
+            expect(cart.getTotalQuantityOfCategory(makeUpChildCategory)).toBe(4);
+            expect(cart.getTotalQuantityOfCategory(lipChildCategory)).toBe(4);
+        });
+        it('coupon: couponLarge', () => {
+            expect(cart.appliedCoupon).toBe(couponLarge);
+        });
+        it('applicableCampaigns: ->', () => {
+            expect(cart.applicableCampaigns).toHaveLength(3);
+            expect(cart.applicableCampaigns).toContain(cosmeticCampaign);
+            expect(cart.applicableCampaigns).toContain(bodyCareCampaign);
+            expect(cart.applicableCampaigns).toContain(makeUpCampaign);
+        });
+        it('appliedCampaigns: ->', () => {
+            expect(cart.appliedCampaigns).toHaveLength(3);
+            expect(cart.appliedCampaigns).toContain(cosmeticCampaign);
+            expect(cart.appliedCampaigns).toContain(makeUpCampaign);
+        });
+        it('expect best campaign is for lipLiner Product ->', () => {
+            expect(cart.getItem(lipLinerProduct).bestCampaign).toStrictEqual(makeUpCampaign);
+        });
+        it('expect best campaign is for lipStick Product ->', () => {
+            expect(cart.getItem(lipStickProduct).bestCampaign).toStrictEqual(makeUpCampaign);
+        });
+        it('expect best campaign is for bodyLotion Product ->', () => {
+            expect(cart.getItem(bodyLotionProduct).bestCampaign).toStrictEqual(cosmeticCampaign);
+        });
+    });
+
     describe('when apply campaigns to cart', () => {
         describe('campaign is applied to rootCategory, product belongs to childCategory ->', () => {
             describe('no campaign applied!', () => {
@@ -319,93 +410,6 @@ describe('cart side', () => {
 
                 expect(cart.getItem(bodyLotionProduct)).toBeUndefined();
             });
-        });
-    });
-    describe('!! OVER ALL CASE !! used almost all edge cases -> campaign, coupon, different SubCategories', () => {
-        const cart = new Cart();
-        cart.addItem(lipLinerProduct, 2);
-        cart.addItem(lipStickProduct, 2);
-        cart.addItem(bodyLotionProduct, 5);
-
-        /**
-         *  Caught 3 ApplicableCampaigns! ->
-         *           cosmeticCampaign (limit: 5),
-         *           bodyCareCampaign (limit: 2),
-         *           makeUpCampaign (limit: 3)
-         *
-         *  Apply Campaign according to a Product Category!
-         *
-         *  Item1 -> lipLinerProduct  => 50 * 2 = 100 TL
-         *  ✅ makeUpCampaign:      minQuantity 3 >= 2 | 100 % 30         => 30 TL
-         *  ⛔ cosmeticCampaign:    minQuantity 5 >= 5 | 100 % 20         => 20 TL
-         *  makeUpCampaign  > cosmeticCampaign ( 30 TL > 20 TL)
-         *
-         *  Item2 -> lipStickProduct => 110 * 2 = 220 TL
-         *  ✅ makeUpCampaign:      minQuantity 3 >= 2 | 220 % 30         => 66 TL
-         *  ⛔ cosmeticCampaign:    minQuantity 5 >= 5 | 220 % 20         => 22 TL
-         *  makeUpCampaign  > cosmeticCampaign ( 66 TL > 22 TL)
-         *
-         *  Item3 -> bodyLotionProduct => 80 * 5 = 400 TL
-         *  ✅ cosmeticCampaign:    minQuantity 5 >= 5 | 400 % 20          => 80 TL
-         *  ⛔ bodyCareCampaign:    minQuantity 2 >= 2 | 400 of 75 TL      => 75 TL
-         *  cosmeticCampaign > bodyCareCampaign ( 80 TL > 75 TL)
-
-         */
-
-        cart.applyCampaigns();
-        cart.applyCoupon(couponLarge);
-
-        // Any Guess?? Be Ready to Flight! :)
-        it('total price:  400 + 220 + 100', () => {
-            expect(cart.totalPrice).toStrictEqual(720);
-        });
-        it('total price after campaign discount: 720 - 176', () => {
-            expect(cart.totalPriceAfterCampaignDiscount).toStrictEqual(544);
-        });
-        it('total price over all: Total - (Campaigns + Coupons) 720 - (176+217.6)', () => {
-            expect(cart.totalPriceOverAll).toStrictEqual(326.4);
-        });
-        it('delivery cost: 1.99 + (3 * 1)', () => {
-            expect(cart.calculateDeliveryCost()).toBe(4.99);
-        });
-        it('totalCampaignDiscountPrice: 30 + 66 + 80', () => {
-            expect(cart.totalCampaignDiscountPrice).toBe((176));
-        });
-        it('couponDiscountPrice: (720-176) % 40', () => {
-            expect(cart.couponDiscountPrice).toBe(217.6);
-        });
-        // Details
-        it('total quantity 5 + 2 + 2', () => {
-            expect(cart.totalQuantity).toBe(9);
-        });
-        it('total quantity each of included category', () => {
-            expect(cart.getTotalQuantityOfCategory(bodyCareChildCategory)).toBe(5);
-            expect(cart.getTotalQuantityOfCategory(cosmeticRootCategory)).toBe(9);
-            expect(cart.getTotalQuantityOfCategory(makeUpChildCategory)).toBe(4);
-            expect(cart.getTotalQuantityOfCategory(lipChildCategory)).toBe(4);
-        });
-        it('coupon: couponLarge', () => {
-            expect(cart.appliedCoupon).toBe(couponLarge);
-        });
-        it('applicableCampaigns: ->', () => {
-            expect(cart.applicableCampaigns).toHaveLength(3);
-            expect(cart.applicableCampaigns).toContain(cosmeticCampaign);
-            expect(cart.applicableCampaigns).toContain(bodyCareCampaign);
-            expect(cart.applicableCampaigns).toContain(makeUpCampaign);
-        });
-        it('appliedCampaigns: ->', () => {
-            expect(cart.appliedCampaigns).toHaveLength(3);
-            expect(cart.appliedCampaigns).toContain(cosmeticCampaign);
-            expect(cart.appliedCampaigns).toContain(makeUpCampaign);
-        });
-        it('expect best campaign is for lipLiner Product ->', () => {
-            expect(cart.getItem(lipLinerProduct).bestCampaign).toStrictEqual(makeUpCampaign);
-        });
-        it('expect best campaign is for lipStick Product ->', () => {
-            expect(cart.getItem(lipStickProduct).bestCampaign).toStrictEqual(makeUpCampaign);
-        });
-        it('expect best campaign is for bodyLotion Product ->', () => {
-            expect(cart.getItem(bodyLotionProduct).bestCampaign).toStrictEqual(cosmeticCampaign);
         });
     });
 });
