@@ -17,6 +17,7 @@ App provides as business impacts:
 #Installation
 
 ```
+git clone https://github.com/xhkocatepe/fast-cart.git
 npm install
 npm test
 npm run coverage
@@ -27,18 +28,18 @@ npm run coverage
 # Over All Case Shows
 
 Please follow this test for explain all cases.
-./Test/Cart.spec.js
+
+[./Test/Cart.spec.js OverAllCase](https://github.com/xhkocatepe/fast-cart/blob/177bbac44b14fba5376a12616e0991a7d41c6e8d/Test/Cart.spec.js#L55)
 
 ![](./images/overall-case.png)
 
-# Coverage Report Result:
+# Coverage Report Result
 
 ```
 git clone https://github.com/xhkocatepe/fast-cart.git
 npm install
 npm run coverage
-
-open browser
+Open any browser
 http://localhost:63342/fast-cart/coverage/lcov-report/index.html
 ```
 
