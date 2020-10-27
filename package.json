@@ -7,7 +7,7 @@
     "test-watch": "npm run test -- --watch",
     "coveralls": "jest --coverage && coveralls < ./coverage/lcov.info"
   },
-  "repository": "https://github.com/xhkocatepe/magic-cart.git",
+  "repository": "https://github.com/xhkocatepe/fast-cart.git",
   "author": "Bayram Hakan Kocatepe",
   "license": "ISC",
   "devDependencies": {
