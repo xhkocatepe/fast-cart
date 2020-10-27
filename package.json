@@ -1,0 +1,28 @@
+{
+  "name": "fast-cart",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "jest",
+    "test-watch": "npm run test -- --watch",
+    "coveralls": "jest --coverage && coveralls < ./coverage/lcov.info"
+  },
+  "repository": "https://github.com/xhkocatepe/magic-cart.git",
+  "author": "Bayram Hakan Kocatepe",
+  "license": "ISC",
+  "devDependencies": {
+    "@jest/globals": "^26.6.1",
+    "coveralls": "^3.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^24.1.0",
+    "jest": "^26.6.0",
+    "lint-diff": "^1.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-diff"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "extends": ["airbnb-base","plugin:jest/all"],
+  "plugins": ["jest"],
+  "rules": {
+    "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
+    "no-underscore-dangle": ["error", { "allow": ["_id", "_doc"] }],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore"
+    }],
+    "no-prototype-builtins": "warn",
+    "no-restricted-properties": "off",
+    "operator-linebreak": "off",
+    "brace-style": ["warn", "1tbs", { "allowSingleLine": true }],
+    "indent": ["error", 4],
+    "max-len": ["error", { "code": 120, "tabWidth": 4 }],
+    "global-require": 0,
+    "import/no-dynamic-require": 0,
+    "arrow-parens": ["warn", "always"],
+    "radix": ["warn", "as-needed"],
+    "no-plusplus": "off",
+    "object-curly-newline": ["error", { "ObjectPattern": { "multiline": true } }],
+    "no-param-reassign": ["error", { "props": false }],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "jest/prefer-expect-assertions": [
+      "warn",
+      { "onlyFunctionsWithAsyncKeyword": true }
+    ]
+  },
+  "env": {
+    "jest": true,
+    "jest/globals": true
+  }
+}
