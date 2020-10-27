@@ -14,7 +14,7 @@ App provides as business impacts:
     * Create categories which may have parents.
     * Create products which belongs to category.
 
-#Installation
+# Installation
 
 ```
 git clone https://github.com/xhkocatepe/fast-cart.git
@@ -22,7 +22,6 @@ npm install
 npm test
 npm run coverage
 ```
-
 ![](./images/coverage.gif)
 
 # Over All Case Shows
@@ -39,7 +38,7 @@ Please follow this test for explain all cases.
 git clone https://github.com/xhkocatepe/fast-cart.git
 npm install
 npm run coverage
-Open any browser
+-Open any browser
 http://localhost:63342/fast-cart/coverage/lcov-report/index.html
 ```
 
