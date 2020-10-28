@@ -3,7 +3,7 @@
 
 Fast CarT-Trade application is completely written in Node.js.
 
-Summary of Business Side:
+# Overview
 * Get an empty cart and start shopping!
 * Creating a new Cart,
 * Add/Remove items with quantity to cart, 
