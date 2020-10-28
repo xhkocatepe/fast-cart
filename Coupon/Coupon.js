@@ -54,6 +54,9 @@ class Coupon {
         const discountStrategy = this.getDiscountStrategy();
         const discountContext = new DiscountStrategyContext(discountStrategy);
 
+        // calculate coupon discount
+        // Ex: Price:200 TL, Coupon: % 25, return value: 50TL
+        // Ex: Price:200 TL, Coupon:   25, return value: 25TL
         return discountContext.executeDiscountStrategy({ price, value: this.value });
     }
 
