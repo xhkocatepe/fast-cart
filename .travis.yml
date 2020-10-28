@@ -4,5 +4,5 @@ matrix:
     - node_js: '10'
     - node_js: '12'
     - node_js: '13'
-    after_success:
+      after_success:
         - ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls
