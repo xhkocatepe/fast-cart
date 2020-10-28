@@ -60,6 +60,7 @@ npm run coverage
     
 # Sample Scenario 
 A sample scenario is created for understand clearly the app.
+
 If you desire to see test detail through app, please click to below link.
 
 [Sample Scenario Test Detail: ./Test/Cart.spec.js ](https://github.com/xhkocatepe/fast-cart/blob/177bbac44b14fba5376a12616e0991a7d41c6e8d/Test/Cart.spec.js#L55)
@@ -94,12 +95,17 @@ If you desire to see test detail through app, please click to below link.
 #### Let’s start trading!
 
 Cart = new Cart();
+
 cart.addItem(lipLinerProduct, 2);
+
 cart.addItem(lipStickProduct, 2);
+
 cart.addItem(bodyLotionProduct, 5);
 
 cart.applyCampaigns();
+
 cart.applyCoupon(couponLarge);
+
 
 ##### Campaign Result
 - Caught 3 ApplicableCampaigns! -> 
