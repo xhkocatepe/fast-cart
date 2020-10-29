@@ -71,18 +71,18 @@ If you desire to see test detail through app, please click to below link.
     - bodyCareChildCategory -> cosmeticRootCategory
 
 - Product
-    - lipLinerProduct ( price: 50, category: lipChildCategory)
-    - lipStickProduct (price:110. category: lipChildCategory)
+    - lipLinerProduct (price: 50, category: lipChildCategory)
+    - lipStickProduct (price:100, category: lipChildCategory)
     - bodyLotionProduct (price:110. category: bodyLotionProduct)
 
 
 - Campaign
-    - cosmeticCampaign = ( category: cosmeticRootCategory, minQuantity: 5, value: 20, type: Rate)
+    - cosmeticCampaign = (category: cosmeticRootCategory, minQuantity: 5, value: 20, type: Rate)
         - %20 discount when minimum 5 cosmeticRootCategory products
     - makeUpCampaign = (category: makeUpChildCategory, minQuantity: 3, value: 30, type: Rate) 
         - %30 discount when minimum 3 makeup products
     - bodyCareCampaign = (category: bodyCareChildCategory, minQuantity: 2, value: 75, type: Amount)
-        - 75 TL discount when minimum 1 makeUpChildCategory products.
+        - 75 TL discount when minimum 2 makeUpChildCategory products.
 
 - Coupon
     - couponSmall = (minPrice: 200, value: 70, type: Amount)
@@ -133,7 +133,7 @@ cart.applyCoupon(couponLarge);
 All Price Result:
 
 - Total Price: 400 + 220 + 100 = 720 TL
-- Total Price After Campaign Discount: 720 - 176 = 544 TL
+- Total Price After Campaigns Discount: 720 - 176 = 544 TL
 - Total Price Over All = Total - (Campaigns + Coupons)  720 - (176+217.6) = 326.4 TL
 - Delivery Cost = 1.99 + (3 * 1) = 4.99 TL
 - Total Campaign Discount Price = 30 + 66 + 80 = 176 TL
